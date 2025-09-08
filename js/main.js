@@ -82,3 +82,103 @@ function handleSearchSubmit(e) {
         hideSuggestions();
     }
 }
+
+function handleSearchInput(e) {
+    const query = e.target.value.trim();
+    
+    if (query.length > 2) {
+        showMockSuggestions(query);
+    } else {
+        hideSuggestions();
+    }
+}
+
+// Fetch and display location suggestions
+async function showSuggestions(query) {
+    if (!query.trim()) {
+        hideSuggestions();
+        return;
+    }
+
+    try {
+        // Fetch suggestions from Open-Meteo Geocoding API
+        const response = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
+        );
+        const data = await response.json();
+
+        suggestions.innerHTML = '';
+
+        if (!data.results || data.results.length === 0) {
+            hideSuggestions();
+            return;
+        }
+
+        data.results.forEach(result => {
+            const item = document.createElement('div');
+            item.className = 'suggestion-item';
+            item.innerHTML = `
+                <div class="suggestion-name">${result.name}</div>
+                <div class="suggestion-detail">${result.admin1 || ''}, ${result.country}</div>
+            `;
+            item.addEventListener('click', () => {
+                searchInput.value = result.name;
+                handleSearch(result.name);
+                hideSuggestions();
+            });
+            suggestions.appendChild(item);
+        });
+
+        suggestions.classList.add('show');
+    } catch (err) {
+        console.error("Error fetching suggestions:", err);
+        hideSuggestions();
+    }
+}
+
+function hideSuggestions() {
+    suggestions.classList.remove('show');
+}
+
+// Main function to handle search and fetch weather data
+async function handleSearch(location) {
+    if (!location.trim() || isLoading) return;
+    
+    setLoading(true);
+    hideError();
+    
+    try {
+        // Get coordinates from location name
+        const geocodeResponse = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`
+        );
+        const geocodeData = await geocodeResponse.json();
+        
+        if (!geocodeData.results || geocodeData.results.length === 0) {
+            throw new Error('Location not found');
+        }
+        
+        const { latitude, longitude, name, country } = geocodeData.results[0];
+        
+        // Get weather data
+        const tempUnit = units === 'imperial' ? 'fahrenheit' : 'celsius';
+        const windUnit = units === 'imperial' ? 'mph' : 'kmh';
+        const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
+        
+        const weatherResponse = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=${tempUnit}&wind_speed_unit=${windUnit}&precipitation_unit=${precipUnit}&timezone=auto&forecast_days=7`
+        );
+        const weatherApiData = await weatherResponse.json();
+        
+        // Transform API data
+        weatherData = transformWeatherData(weatherApiData, name, country);
+        
+        displayWeatherData();
+        showWeatherContent();
+        
+    } catch (err) {
+        showError(err.message || 'Failed to fetch weather data');
+    } finally {
+        setLoading(false);
+    }
+}

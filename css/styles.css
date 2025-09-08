@@ -82,6 +82,11 @@ body {
   gap: 0.75rem;
 }
 
+.logo img {
+  width: 10.5rem;
+  height: 6rem;
+}
+
 .logo-icon {
   width: 2rem;
   height: 2rem;
@@ -301,3 +306,65 @@ body {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: var(--transition);
+}
+
+.suggestions.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.suggestion-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.suggestion-item:hover {
+  background-color: var(--secondary);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.suggestion-item:first-child {
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.suggestion-name {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.suggestion-detail {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+/* Error Message */
+.error-message {
+  text-align: center;
+  color: hsl(0, 100%, 67%);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
