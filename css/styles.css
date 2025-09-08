@@ -1,0 +1,49 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Color System */
+  --neutral-900: hsl(243, 96%, 9%);
+  --neutral-800: hsl(243, 27%, 20%);
+  --neutral-700: hsl(243, 23%, 24%);
+  --neutral-600: hsl(243, 23%, 30%);
+  --neutral-300: hsl(240, 6%, 70%);
+  --neutral-200: hsl(250, 6%, 84%);
+  --neutral-0: hsl(0, 0%, 100%);
+  --orange-500: hsl(28, 100%, 52%);
+  --blue-500: hsl(233, 67%, 56%);
+  --blue-700: hsl(248, 70%, 36%);
+
+  /* Semantic Colors */
+  --background: var(--neutral-900);
+  --foreground: var(--neutral-0);
+  --card: var(--neutral-800);
+  --card-foreground: var(--neutral-0);
+  --secondary: var(--neutral-700);
+  --secondary-foreground: var(--neutral-0);
+  --muted: var(--neutral-600);
+  --muted-foreground: var(--neutral-300);
+  --primary: var(--blue-500);
+  --primary-foreground: var(--neutral-0);
+  --border: var(--neutral-700);
+
+  /* Typography */
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary), var(--blue-700));
+  --gradient-orange: linear-gradient(135deg, var(--orange-500), hsl(45, 100%, 58%));
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px hsla(243, 96%, 9%, 0.1);
+  --shadow-md: 0 4px 16px hsla(243, 96%, 9%, 0.15);
+  --shadow-lg: 0 8px 32px hsla(243, 96%, 9%, 0.2);
+  
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
