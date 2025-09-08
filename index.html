@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Mentor | Weather app</title>
+    <meta name="description" content="Modern weather app with accurate forecasts and beautiful design" />
+      
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content="Weather Now - Daily Skies" />
+    <meta property="og:description" content="Get accurate weather forecasts with beautiful design" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,600;1,9..40,600;0,9..40,700&family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="public/assets/images/favicon-32x32.png">
+
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header class="header">
+        <div class="container">
+          <div class="header-content">
+            <div class="logo">
+              <img src="public/assets/images/logo.svg" alt="logo" />
+            </div>
+            <div class="units-toggle">
+              <button class="units-button" id="unitsButton">
+                <img src="public/assets/images/icon-units.svg" class="icon" alt="units icon" />
+                <span>Units</span>
+                <img class="icon dropdown-arrow" src="public/assets/images/icon-dropdown.svg" alt="">
+              </button>
+              <div class="units-dropdown" id="unitsDropdown">
+                <div class="units-content">
+                  <div class="unit-section">
+                    <button class="unit-btn">Switch to Imperial</button>
+                  </div>
+                  <div class="unit-section">
+                    <div class="unit-label">Temperature</div>
+                    <div class="unit-buttons">
+                      <button class="unit-btn active" data-unit="celsius">Celsius (°C)</button>
+                      <button class="unit-btn" data-unit="fahrenheit">Fahrenheit (°F)</button>
+                    </div>
+                  </div>
+                  <div class="unit-section">
+                    <div class="unit-label">Wind Speed</div>
+                    <div class="unit-buttons">
+                      <button class="unit-btn active" data-unit="kmh">km/h</button>
+                      <button class="unit-btn" data-unit="mph">mph</button>
+                    </div>
+                  </div>
+                  <div class="unit-section">
+                    <div class="unit-label">Precipitation</div>
+                    <div class="unit-buttons">
+                      <button class="unit-btn active" data-unit="mm">Millimeter (mm)</button>
+                      <button class="unit-btn" data-unit="inch">Inches (inch)</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="main">
+        <div class="container">
+          <!-- Title -->
+          <div class="title-section">
+            <h2 class="main-title">How's the sky looking today?</h2>
+          </div>
+
+          <!-- Search -->
+          <div class="search-section">
+            <form class="search-form" id="searchForm">
+              <div class="search-input-container">
+                <div class="search-icon">
+                  <img src="public/assets/images/icon-search.svg" alt="search icon" />
+                </div>
+                <input 
+                  type="text" 
+                  class="search-input" 
+                  id="searchInput"
+                  placeholder="Search for a place..."
+                  autocomplete="off"
+                />
+                <button type="submit" class="search-button" id="searchButton">
+                  <span class="search-text">Search</span>
+                  <span class="loading-text" style="display: none;">Searching...</span>
+                </button>
+              </div>
+              <div class="suggestions" id="suggestions"></div>
+            </form>
+          </div>
+
+          <!-- Error Message -->
+          <div class="error-message" id="errorMessage" style="display: none;"></div>
+
+          <!-- Weather Content -->
+          <div class="weather-content" id="weatherContent" style="display: block;">
+            <div class="weather-grid">
+              <!-- Left Column -->
+              <div class="weather-left">
+                <!-- Current Weather -->
+                <div class="current-weather loading-state" id="currentWeather">
+                  <div class="weather-bg-decoration"></div>
+                  <div class="weather-bg-decoration-2"></div>
+                  <div class="current-weather-content">
+                    <div class="loading-indicator" id="loadingIndicator">
+                      <div class="loading-dots">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                      </div>
+                      <p class="loading-text">Loading...</p>
+                    </div>
+                    <div class="weather-info" id="weatherInfo" style="display: none;">
+                      <div class="location-info">
+                        <h2 class="location-name" id="locationName">—</h2>
+                        <div class="location-date" id="locationDate">—</div>
+                      </div>
+                      <div class="weather-main">
+                        <div class="weather-icon" id="weatherIcon">☀️</div>
+                        <div class="temperature-info">
+                          <div class="current-temp" id="currentTemp">—</div>
+                          <div class="weather-condition" id="weatherCondition">—</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Weather Metrics -->
+                <div class="weather-metrics" id="weatherMetrics">
+                  <div class="metrics-grid">
+                    <div class="metric-card">
+                      <div class="metric-info">
+                        <div class="metric-label">Feels Like</div>
+                        <div class="metric-value loading-value" id="feelsLike">—</div>
+                      </div>
+                    </div>
+                    <div class="metric-card">
+                      <div class="metric-info">
+                        <div class="metric-label">Humidity</div>
+                        <div class="metric-value loading-value" id="humidity">—</div>
+                      </div>
+                    </div>
+                    <div class="metric-card">
+                      <div class="metric-info">
+                        <div class="metric-label">Wind</div>
+                        <div class="metric-value loading-value" id="windSpeed">—</div>
+                      </div>
+                    </div>
+                    <div class="metric-card">
+                      <div class="metric-info">
+                        <div class="metric-label">Precipitation</div>
+                        <div class="metric-value loading-value" id="precipitation">—</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Daily Forecast -->
+                <div class="daily-forecast">
+                  <h3 class="forecast-title">Daily forecast</h3>
+                  <div class="daily-forecast-grid" id="dailyForecastGrid">
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                    <div class="daily-forecast-item skeleton"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column -->
+              <div class="weather-right">
+                <!-- Hourly Forecast -->
+                <div class="hourly-forecast">
+                  <div class="hourly-header">
+                    <h3 class="forecast-title">Hourly forecast</h3>
+                    <select class="day-selector" id="daySelector">
+                      <option value="0">—</option>
+                    </select>
+                  </div>
+                  <div class="hourly-forecast-list" id="hourlyForecastList">
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                    <div class="hourly-item skeleton"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a> ||
+      Coded by <a href="https://www.linkedin.com/in/ejiofor-joshua-43734426b">Ejiofor Joshua</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+  </body>
+</html>
