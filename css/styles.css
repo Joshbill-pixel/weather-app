@@ -368,3 +368,165 @@ body {
   margin-bottom: 2rem;
 }
 
+/* Weather Content */
+.weather-content {
+  margin-top: 2rem;
+}
+
+.weather-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .weather-grid {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.weather-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Current Weather */
+.current-weather {
+  background: var(--gradient-primary);
+  border-radius: 1rem;
+  padding: 2rem;
+  color: var(--neutral-0);
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-bg-decoration {
+  position: absolute;
+  top: -4rem;
+  right: -4rem;
+  width: 8rem;
+  height: 8rem;
+  background: hsla(0, 0%, 100%, 0.1);
+  border-radius: 50%;
+}
+
+.weather-bg-decoration-2 {
+  position: absolute;
+  bottom: -3rem;
+  left: -3rem;
+  width: 6rem;
+  height: 6rem;
+  background: hsla(0, 0%, 100%, 0.05);
+  border-radius: 50%;
+}
+
+.current-weather-content {
+  position: relative;
+  z-index: 1;
+}
+
+.current-weather-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.weather-main{
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .current-weather-info {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.location-name {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.location-date {
+  color: hsla(0, 0%, 100%, 0.8);
+  font-size: 1.125rem;
+}
+
+.weather-display {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.weather-icon {
+  font-size: 3.75rem;
+}
+
+.current-temp {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 4rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.weather-condition {
+  color: hsla(0, 0%, 100%, 0.8);
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+/* Weather Metrics */
+.weather-metrics {
+  border-radius: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--secondary);
+  border-radius: 0.75rem;
+  transition: var(--transition);
+}
+
+.metric-card:hover {
+  transform: translateY(-0.125rem);
+  box-shadow: var(--shadow-md);
+}
+
+.metric-icon {
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  border-radius: 0.5rem;
+}
+
+.metric-label {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin-bottom: 0.25rem;
+}
+
+.metric-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
