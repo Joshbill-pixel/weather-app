@@ -182,3 +182,88 @@ async function handleSearch(location) {
         setLoading(false);
     }
 }
+
+function transformWeatherData(apiData, name, country) {
+    const temperatureUnit = units === 'imperial' ? '°F' : '°C';
+    const windUnit = units === 'imperial' ? 'mph' : 'km/h';
+    const precipUnit = precipitationUnit === 'inch' ? 'inch' : 'mm';
+    
+    return {
+        location: name,
+        country: country,
+        date: new Date().toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+        }),
+        temperature: Math.round(apiData.current.temperature_2m),
+        temperatureUnit,
+        condition: getWeatherCondition(apiData.current.weather_code),
+        icon: getWeatherIcon(apiData.current.weather_code),
+        feelsLike: Math.round(apiData.current.apparent_temperature),
+        humidity: apiData.current.relative_humidity_2m,
+        windSpeed: Math.round(apiData.current.wind_speed_10m),
+        windUnit,
+        precipitation: (apiData.current.precipitation !== null && apiData.current.precipitation !== undefined) ? 
+            Number(apiData.current.precipitation.toFixed(1)) : 0,
+        precipitationUnit: precipUnit,
+        daily: apiData.daily.time.map((date, index) => ({
+            date,
+            day: index === 0 ? 'Today' : new Date(date).toLocaleDateString('en-US', { weekday: 'long' }),
+            high: Math.round(apiData.daily.temperature_2m_max[index]),
+            low: Math.round(apiData.daily.temperature_2m_min[index]),
+            condition: getWeatherCondition(apiData.daily.weather_code[index]),
+            icon: getWeatherIcon(apiData.daily.weather_code[index])
+        })),
+        hourly: apiData.hourly.time.map((time, index) => ({
+            time: new Date(time).toLocaleTimeString('en-US', { 
+                hour: 'numeric', 
+                hour12: true 
+            }),
+            date: new Date(time).toDateString(),
+            temperature: Math.round(apiData.hourly.temperature_2m[index]),
+            condition: getWeatherCondition(apiData.hourly.weather_code[index]),
+            icon: getWeatherIcon(apiData.hourly.weather_code[index])
+        }))
+    };
+}
+
+function displayWeatherData() {
+    if (!weatherData) return;
+    
+    // Hide loading and show weather info
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    const weatherInfo = document.getElementById('weatherInfo');
+    const currentWeatherEl = document.getElementById('currentWeather');
+    
+    if (loadingIndicator) loadingIndicator.style.display = 'none';
+    if (weatherInfo) {
+        weatherInfo.style.display = 'flex';
+        weatherInfo.style.justifyContent = 'space-between';
+        weatherInfo.style.alignItems = 'center';
+    }
+    if (currentWeatherEl) currentWeatherEl.classList.remove('loading-state');
+    
+    // Current weather
+    if (locationName) locationName.textContent = `${weatherData.location}, ${weatherData.country}`;
+    if (locationDate) locationDate.textContent = weatherData.date;
+    if (weatherIcon) weatherIcon.textContent = weatherData.icon;
+    if (currentTemp) currentTemp.textContent = `${weatherData.temperature}${weatherData.temperatureUnit}`;
+    if (weatherCondition) weatherCondition.textContent = weatherData.condition;
+    
+    // Weather metrics
+    if (feelsLike) feelsLike.textContent = `${weatherData.feelsLike}${weatherData.temperatureUnit}`;
+    if (humidity) humidity.textContent = `${weatherData.humidity}%`;
+    if (windSpeed) windSpeed.textContent = `${weatherData.windSpeed} ${weatherData.windUnit}`;
+    if (precipitation) precipitation.textContent = `${weatherData.precipitation} ${weatherData.precipitationUnit}`;
+    
+    // Daily forecast
+    displayDailyForecast();
+    
+    // Hourly forecast
+    displayHourlyForecast();
+    
+    // Update day selector
+    updateDaySelector();
+}
