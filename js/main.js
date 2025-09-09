@@ -34,8 +34,8 @@ const daySelector = document.getElementById('daySelector');
 // Initialize app
 document.addEventListener('DOMContentLoaded', function() {
     initializeEventListeners();
-    // Load default location (Berlin)
-    handleSearch('Berlin');
+    // Load default location (Lagos)
+    handleSearch('Lagos');
 });
 
 function initializeEventListeners() {
@@ -266,4 +266,209 @@ function displayWeatherData() {
     
     // Update day selector
     updateDaySelector();
+}
+
+function displayDailyForecast() {
+    dailyForecastGrid.innerHTML = '';
+    
+    weatherData.daily.forEach((day, index) => {
+        const item = document.createElement('button');
+        item.className = `daily-forecast-item ${selectedDay === index ? 'active' : ''}`;
+        item.innerHTML = `
+            <div class="daily-day">${day.day}</div>
+            <div class="daily-icon">${day.icon}</div>
+            <div class="daily-high">${day.high}${weatherData.temperatureUnit}</div>
+            <div class="daily-low">${day.low}${weatherData.temperatureUnit}</div>
+        `;
+        item.addEventListener('click', () => selectDay(index));
+        dailyForecastGrid.appendChild(item);
+    });
+}
+
+function displayHourlyForecast() {
+    hourlyForecastList.innerHTML = '';
+    
+    // weatherData.hourly.forEach((hour, index) => {
+        // Get the selected day's date
+    const selectedDate = new Date(weatherData.daily[selectedDay].date).toDateString();
+    
+    // Filter hourly data for the selected day
+    const selectedDayHours = weatherData.hourly.filter(hour => hour.date === selectedDate);
+    
+    selectedDayHours.forEach((hour, index) => {
+
+        const item = document.createElement('div');
+        item.className = 'hourly-item';
+        item.innerHTML = `
+            <div class="hourly-left">
+                <div class="hourly-icon">${hour.icon}</div>
+                <div class="hourly-time">${hour.time}</div>
+            </div>
+            <div class="hourly-temp">${hour.temperature}${weatherData.temperatureUnit}</div>
+        `;
+        hourlyForecastList.appendChild(item);
+    });
+}
+
+function updateDaySelector() {
+    daySelector.innerHTML = '';
+    
+    weatherData.daily.forEach((day, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = day.day;
+        if (index === selectedDay) option.selected = true;
+        daySelector.appendChild(option);
+    });
+}
+
+function selectDay(dayIndex) {
+    selectedDay = dayIndex;
+    displayDailyForecast();
+    // daySelector.value = dayIndex;
+    displayHourlyForecast();
+    daySelector.value = dayIndex;
+}
+
+function handleDaySelect(e) {
+    const dayIndex = parseInt(e.target.value);
+    selectDay(dayIndex);
+}
+
+function toggleUnitsDropdown() {
+    const unitsToggle = unitsButton.parentElement;
+    unitsToggle.classList.toggle('open');
+}
+
+function closeUnitsDropdown() {
+    const unitsToggle = unitsButton.parentElement;
+    unitsToggle.classList.remove('open');
+}
+
+function handleUnitChange(e) {
+    const unitType = e.target.dataset.unit;
+    
+    // Update active state
+    const unitSection = e.target.closest('.unit-section');
+    const unitBtns = unitSection.querySelectorAll('.unit-btn');
+    unitBtns.forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+    
+    // Update units and re-fetch if needed
+    let needsRefetch = false;
+    
+    if (unitType === 'celsius' || unitType === 'fahrenheit') {
+        const newUnits = unitType === 'celsius' ? 'metric' : 'imperial';
+        if (newUnits !== units) {
+            units = newUnits;
+            needsRefetch = true;
+        }
+    } else if (unitType === 'mm' || unitType === 'inch') {
+        if (unitType !== precipitationUnit) {
+            precipitationUnit = unitType;
+            needsRefetch = true;
+        }
+    }
+    
+    if (needsRefetch && weatherData) {
+        // Re-fetch data with new units
+        handleSearch(weatherData.location);
+    }
+    
+    closeUnitsDropdown();
+}
+
+function setLoading(loading) {
+    isLoading = loading;
+    const searchText = searchButton.querySelector('.search-text');
+    const loadingText = searchButton.querySelector('.loading-text');
+    
+    if (loading) {
+        searchText.style.display = 'none';
+        loadingText.style.display = 'inline';
+        searchButton.disabled = true;
+        searchInput.disabled = true;
+    } else {
+        searchText.style.display = 'inline';
+        loadingText.style.display = 'none';
+        searchButton.disabled = false;
+        searchInput.disabled = false;
+    }
+}
+
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    weatherContent.style.display = 'none';
+}
+
+function hideError() {
+    errorMessage.style.display = 'none';
+}
+
+function showWeatherContent() {
+    hideError();
+    weatherContent.style.display = 'block';
+}
+
+// Weather condition mapping
+function getWeatherCondition(code) {
+    const conditions = {
+        0: 'Clear sky',
+        1: 'Mainly clear',
+        2: 'Partly cloudy',
+        3: 'Overcast',
+        45: 'Fog',
+        48: 'Depositing rime fog',
+        51: 'Light drizzle',
+        53: 'Moderate drizzle',
+        55: 'Dense drizzle',
+        61: 'Slight rain',
+        63: 'Moderate rain',
+        65: 'Heavy rain',
+        71: 'Slight snow',
+        73: 'Moderate snow',
+        75: 'Heavy snow',
+        77: 'Snow grains',
+        80: 'Slight rain showers',
+        81: 'Moderate rain showers',
+        82: 'Violent rain showers',
+        85: 'Slight snow showers',
+        86: 'Heavy snow showers',
+        95: 'Thunderstorm',
+        96: 'Thunderstorm with hail',
+        99: 'Thunderstorm with heavy hail'
+    };
+    return conditions[code] || 'Unknown';
+}
+
+// Weather icon mapping
+function getWeatherIcon(code) {
+    const icons = {
+        0: '☀️',
+        1: '🌤️',
+        2: '⛅',
+        3: '☁️',
+        45: '🌫️',
+        48: '🌫️',
+        51: '🌦️',
+        53: '🌦️',
+        55: '🌦️',
+        61: '🌧️',
+        63: '🌧️',
+        65: '🌧️',
+        71: '🌨️',
+        73: '🌨️',
+        75: '❄️',
+        77: '🌨️',
+        80: '🌦️',
+        81: '🌦️',
+        82: '🌧️',
+        85: '🌨️',
+        86: '❄️',
+        95: '⛈️',
+        96: '⛈️',
+        99: '⛈️'
+    };
+    return icons[code] || '❓';
 }
