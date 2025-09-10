@@ -36,15 +36,25 @@ Users should be able to:
 - See hover and focus states for all interactive elements on the page
 
 ### Screenshot
+- LOADING STATE/SCREEN
 [![Loading State](./public/screenshots/Screenshot%202025-09-09%20at%2001.04.08.png)](https://github.com/Joshbill-pixel/weather-app.git)
+
+
+- APP FULLY LOADED/DISPLAYED
 [![Main Screen](./public/screenshots/Screenshot%202025-09-09%20at%2004.10.19.png)](https://github.com/Joshbill-pixel/weather-app.git)
+
 
 - UNIT DROPDOWN
 [![Unit Dropdown](./public/screenshots/Screenshot%202025-09-10%20at%2002.25.31.png)](https://github.com/Joshbill-pixel/weather-app.git)
+
+
 [![Alt text](./public/screenshots/Screenshot%202025-09-10%20at%2002.26.12.png)](https://github.com/Joshbill-pixel/weather-app.git)
+
 
 - SEARCH SUGGESTIONS
 [![Search Suggestion](./public/screenshots/Screenshot%202025-09-10%20at%2002.31.33.png)](https://github.com/Joshbill-pixel/weather-app.git)
+
+
 [![Alt text](./public/screenshots/Screenshot%202025-09-10%20at%2002.32.09.png)](https://github.com/Joshbill-pixel/weather-app.git)
 
 ### Links
