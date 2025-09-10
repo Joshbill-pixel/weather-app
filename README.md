@@ -45,22 +45,22 @@ Users should be able to:
 
 
 - UNIT DROPDOWN
-[![Unit Dropdown](./public/screenshots/Screenshot%202025-09-10%20at%2002.25.31.png)](https://github.com/Joshbill-pixel/weather-app.git)
+[![Unit Dropdown-a](./public/screenshots/Screenshot%202025-09-10%20at%2002.25.31.png)](https://github.com/Joshbill-pixel/weather-app.git)
 
 
-[![Alt text](./public/screenshots/Screenshot%202025-09-10%20at%2002.26.12.png)](https://github.com/Joshbill-pixel/weather-app.git)
+[![Unit Dropdown-b](./public/screenshots/Screenshot%202025-09-10%20at%2002.26.12.png)](https://github.com/Joshbill-pixel/weather-app.git)
 
 
 - SEARCH SUGGESTIONS
-[![Search Suggestion](./public/screenshots/Screenshot%202025-09-10%20at%2002.31.33.png)](https://github.com/Joshbill-pixel/weather-app.git)
+[![Search Suggestion-a](./public/screenshots/Screenshot%202025-09-10%20at%2002.31.33.png)](https://github.com/Joshbill-pixel/weather-app.git)
 
 
-[![Alt text](./public/screenshots/Screenshot%202025-09-10%20at%2002.32.09.png)](https://github.com/Joshbill-pixel/weather-app.git)
+[![Search Suggestion-b](./public/screenshots/Screenshot%202025-09-10%20at%2002.32.09.png)](https://github.com/Joshbill-pixel/weather-app.git)
 
 ### Links
 
 - Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Frontend Mentor | Weather app](https://weather-app-frontend-mentor.netlify.app/)
 
 ## My process
 
@@ -104,9 +104,9 @@ I want to continue focusing on:
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
+- Github - [@Joshbill-pixel](https://github.com/Joshbill-pixel)
+- LinkedIn - [Ejiofor Joshua](https://www.linkedin.com/in/ejiofor-joshua-43734426b)
+- Frontend Mentor - [@Joshbill-pixel](https://www.frontendmentor.io/profile/Joshbill-pixel)
 
 ## Acknowledgments
 
